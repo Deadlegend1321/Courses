@@ -1,44 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Homepage extends StatefulWidget {
+class Homespage extends StatefulWidget {
   @override
-  _HomepageState createState() => _HomepageState();
+  _HomespageState createState() => _HomespageState();
 }
 
-class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin {
-  bool isCollapsed = true;
-  double screenWidth,screenHeight;
+class _HomespageState extends State<Homespage> with SingleTickerProviderStateMixin {
+  bool iscollapsed = true;
+  double screenwidth, screenheight;
   final Duration duration = const Duration(milliseconds: 300);
   AnimationController _controller;
-  Animation<double> _scaleAnimation;
-  Animation<double> _animation;
-  Animation<Offset> _slideAnimation;
+  Animation<double> _scaleanimation;
+  Animation<double> _menuscaleanimation;
+  Animation<Offset> _slideanimation;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = AnimationController(vsync: this, duration: duration);
-    _scaleAnimation = Tween<double>(begin: 1,end: 0.6).animate(_controller);
-    _animation = Tween<double>(begin: 0.5,end: 1).animate(_controller);
-    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0),end: Offset(0, 0)).animate(_controller);
+    _scaleanimation = Tween<double>(begin: 1,end: 0.6).animate(_controller);
+    _menuscaleanimation = Tween<double>(begin: 0,end: 1).animate(_controller);
+    _slideanimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0) ).animate(_controller);
   }
+
   @override
   void dispose() {
     _controller.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    screenHeight = size.height;
-    screenWidth = size.width;
+    screenheight = size.height;
+    screenwidth = size.width;
     return Scaffold(
       body: Stack(
         children: <Widget>[
           menu(context),
-          dashboard(context),
+          dashboard(context)
         ],
       ),
     );
@@ -62,7 +62,7 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
     hint: Text('ABOUT US',
       style: TextStyle(color: Colors.black, fontSize: 20.0),),
   );
- static var courses = ['GATE', 'GRE', 'IAS'];
+  static var courses = ['GATE', 'GRE', 'IAS'];
   final d = DropdownButton<String>(
     items: courses.map((String dropDownStringItem) {
       return DropdownMenuItem<String>(value: dropDownStringItem
@@ -73,7 +73,7 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
     hint: Text('COURSES',
       style: TextStyle(color: Colors.black, fontSize: 20.0),),
   );
- static var res = [''];
+  static var res = [''];
   final e = DropdownButton<String>(items: res.map((String dropDownStringItem) {
     return DropdownMenuItem<String>(value: dropDownStringItem
         , child: Text(dropDownStringItem));
@@ -84,26 +84,25 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
       style: TextStyle(color: Colors.black, fontSize: 20.0),),
   );
 
-
-  Widget menu(context) {
+  Widget menu(context)
+  {
     return SlideTransition(
-      position: _slideAnimation,
+      position: _slideanimation,
       child: ScaleTransition(
-        scale: _animation,
+        scale: _menuscaleanimation,
         child: Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: Align(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[drop,
-                    SizedBox(height: 10.0,),
-                    d,
-                    SizedBox(height: 10.0,),
-                    e]
-              )
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[drop,
+                SizedBox(height: 10.0,),d,
+                SizedBox(height: 10.0,),e
+              ],
+            ),
           ),
         ),
       ),
@@ -113,14 +112,14 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
   Widget dashboard(context)
   {
     return AnimatedPositioned(
+      duration: duration,
       top: 0,
       bottom: 0,
-      left: isCollapsed ? 0 :0.6 * screenWidth,
-      right: isCollapsed ? 0 : -0.4 * screenWidth,
+      left: iscollapsed ? 0: 0.6 * screenwidth,
+      right: iscollapsed ? 0 : -0.4 * screenwidth,
       child: ScaleTransition(
-        scale: _scaleAnimation,
+        scale: _scaleanimation,
         child: Material(
-          animationDuration: duration,
           borderRadius: BorderRadius.all(Radius.circular(40)),
           elevation: 8,
           child: Container(
@@ -131,21 +130,19 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    InkWell(child: Icon(Icons.menu), onTap: ()
-                      {
-                        setState(() {
-                          if(isCollapsed)
-                            _controller.forward();
-                          else
-                            _controller.reverse();
-                          isCollapsed = !isCollapsed;
-                        });
-                      },),
-                    Text('Bookopoly',
-                    style: TextStyle(fontSize: 24),),
-                    InkWell(child: Icon(Icons.add_shopping_cart),),
-                    InkWell(child: Icon(Icons.account_circle),),
-                  ],
+                  InkWell(child: Icon(Icons.menu,),onTap: () {
+                    setState(() {
+                      if(iscollapsed)
+                        _controller.forward();
+                      else
+                        _controller.reverse();
+                      iscollapsed = !iscollapsed;
+                    });
+                  },),
+                  Text("BOOKOPOLY", style: TextStyle(fontSize: 24),),
+                  InkWell(child: Icon(Icons.add_shopping_cart,),),
+                  InkWell(child: Icon(Icons.account_circle,),),
+                ],
                 ),
                 SizedBox(height: 50,),
                 Container(
@@ -162,12 +159,12 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
                       ),
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 8),
-                        color: Colors.blueAccent,
+                        color: Colors.greenAccent,
                         width: 100,
                       ),
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 8),
-                        color: Colors.greenAccent,
+                        color: Colors.blueAccent,
                         width: 100,
                       )
                     ],
@@ -181,5 +178,3 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
     );
   }
 }
-
-

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:courses/src/pages/splashscreen.dart';
 
 class Loginpage extends StatefulWidget {
   @override
@@ -89,7 +90,9 @@ class _LoginpageState extends State<Loginpage> {
                     color: Colors.green,
                     elevation: 7.0,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> splash()));
+                      },
                       child: Center(
                         child: Text('LOGIN',
                         style: TextStyle(
@@ -172,7 +175,7 @@ class _LoginpageState extends State<Loginpage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('New to Bookopoly?',
+              Text('New to BOOKOPOLY?',
               style: TextStyle(
                 fontFamily: 'Montserrat'
               ),),
